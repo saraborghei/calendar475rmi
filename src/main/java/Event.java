@@ -1,0 +1,142 @@
+/**
+ * Created by sarab on 4/29/2017.
+ */
+
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+
+public final class Event implements Comparable<Event> {
+    private long id;
+    private int control;//0: private, 1: public, 2: group, 3: open
+    private Date begin;
+    private Date end;
+    private String description;
+    private String[] user;
+
+    public Event(String description, Date begin, Date end) {
+        super();
+        this.control = 0;
+        this.begin = begin;
+        this.end = end;
+        this.description = description;
+    }
+
+    /**
+     * @return the id
+     */
+    public long getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    /**
+     * @return the control
+     */
+    public int getControl() {
+        return control;
+    }
+
+    /**
+     * @param control the control to set
+     */
+    public void setControl(int control) {
+        this.control = control;
+    }
+
+    /**
+     * @return the begin
+     */
+    public Date getBegin() {
+        return begin;
+    }
+
+    /**
+     * @param begin the begin to set
+     */
+    public void setBegin(Date begin) {
+        this.begin = begin;
+    }
+
+    /**
+     * @return the end
+     */
+    public Date getEnd() {
+        return end;
+    }
+
+    /**
+     * @param end the end to set
+     */
+    public void setEnd(Date end) {
+        this.end = end;
+    }
+
+    /**
+     * @return the description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * @param description the description to set
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
+     * @return the user
+     */
+    public String[] getUser() { return user; }
+
+    /**
+     * @param user the user to set
+     */
+    public void setUser(String[] user) { this.user = user; }
+
+    @Override
+    public int compareTo(Event arg0) {
+        int beginComp = this.getBegin().compareTo(arg0.getBegin());
+        int endComp = this.getEnd().compareTo(arg0.getEnd());
+        if (beginComp <= 0) {
+            // this contain arg0
+            if (endComp >= 0) {
+                return 0;
+            }
+            // this intersect arg0
+            else {
+                return -1;
+            }
+        }
+        // arg0 doesn't contain or intersect with this
+        else if (arg0.getEnd().compareTo(this.getBegin()) <= 0) {
+            return 1;
+        }
+        // arg0 intersect this
+        else return -1;
+    }
+
+    @Override
+    public String toString() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
+        String event = "Id: " + this.getId() + "\n"
+                + "Access Control: " + this.control
+                + "Begin Date: " + sdf.format(this.getBegin()) + "\n"
+                + "End Date: " + sdf.format(this.getEnd()) + "\n"
+                + "Description: " + this.getDescription();
+        return event;
+    }
+
+    public long timeToBegin() {
+        return this.begin.getTime() - System.currentTimeMillis();
+    }
+}
