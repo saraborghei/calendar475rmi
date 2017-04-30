@@ -14,9 +14,8 @@ import java.util.*;
 import java.util.concurrent.PriorityBlockingQueue;
 
 public class CalendarImpl extends UnicastRemoteObject implements Calendar {
-
-    private static final String NAME = "calendarServer";
     private static final long serialVersionUID = -85961688592716816L;
+    private static final String NAME = "calendar";
 
     private final HashMap<Long, Event> _events;
     private final PriorityBlockingQueue<Event> _upcomingEvents;

@@ -5,7 +5,6 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.TreeSet;
 import java.util.concurrent.PriorityBlockingQueue;
 
 /**
@@ -13,9 +12,8 @@ import java.util.concurrent.PriorityBlockingQueue;
  * Provides methods to save to file and load from file
  */
 public class CalendarManager implements Serializable {
-
-    private static final String FILE = "calendar.dat";
     private static final long serialVersionUID = 3409820738914803592L;
+    private static final String FILE = "calendar.dat";
 
     private final HashMap<Long, Event> _events;
     private final PriorityBlockingQueue<Event> _upcomingEvents;
@@ -40,7 +38,7 @@ public class CalendarManager implements Serializable {
     }
 
     /**
-     * Load data from file
+     * load data from file
      */
     public static CalendarManager load() {
         if ((new File(FILE)).exists()) {
@@ -49,20 +47,17 @@ public class CalendarManager implements Serializable {
                 ObjectInputStream ois = new ObjectInputStream(fin);
                 CalendarManager calendarData = (CalendarManager) ois.readObject();
                 ois.close();
-
                 return calendarData;
-
             } catch (Exception e) {
                 System.err.println("Can't load data file.");
                 e.printStackTrace();
             }
         }
-
         return null;
     }
 
     /**
-     * Save data to a file
+     * save data in file
      */
     public static boolean save(HashMap<Long, Event> events, PriorityBlockingQueue<Event> upcomingEvents, HashMap<String, ArrayList<Event>> userEvents) {
         try {

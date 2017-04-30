@@ -3,7 +3,6 @@
  */
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 
 public final class Event implements Comparable<Event> {
@@ -15,7 +14,7 @@ public final class Event implements Comparable<Event> {
     private String[] user;
 
     public Event(String description, Date begin, Date end) {
-        super();
+        // event are private unless specified
         this.control = 0;
         this.begin = begin;
         this.end = end;
@@ -102,6 +101,15 @@ public final class Event implements Comparable<Event> {
      */
     public void setUser(String[] user) { this.user = user; }
 
+    /**
+     * compare to events return
+     *  0 if this contains arg0
+     *  1 if there is no intersection between arg0 and this
+     *  -1 if this intersects to arg0
+     *
+     * @param arg0 the event to compare
+     * @return the comparison result
+     */
     @Override
     public int compareTo(Event arg0) {
         int beginComp = this.getBegin().compareTo(arg0.getBegin());
@@ -127,12 +135,12 @@ public final class Event implements Comparable<Event> {
     @Override
     public String toString() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-
-        String event = "Id: " + this.getId() + "\n"
+        String event = "ID: " + this.getId() + "\n"
                 + "Access Control: " + this.control
                 + "Begin Date: " + sdf.format(this.getBegin()) + "\n"
                 + "End Date: " + sdf.format(this.getEnd()) + "\n"
-                + "Description: " + this.getDescription();
+                + "Description: " + this.getDescription() + "\n"
+                + "Users: " + this.getUser();
         return event;
     }
 
