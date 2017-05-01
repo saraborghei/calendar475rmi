@@ -6,14 +6,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public final class Event implements Comparable<Event> {
-    private long id;
+    private String id;
     private int control;//0: private, 1: public, 2: group, 3: open
     private Date begin;
     private Date end;
     private String description;
-    private String[] user;
 
-    public Event(String description, Date begin, Date end) {
+    public Event(Date begin, Date end, String description) {
         // event are private unless specified
         this.control = 0;
         this.begin = begin;
@@ -24,14 +23,14 @@ public final class Event implements Comparable<Event> {
     /**
      * @return the id
      */
-    public long getId() {
+    public String getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -92,16 +91,6 @@ public final class Event implements Comparable<Event> {
     }
 
     /**
-     * @return the user
-     */
-    public String[] getUser() { return user; }
-
-    /**
-     * @param user the user to set
-     */
-    public void setUser(String[] user) { this.user = user; }
-
-    /**
      * compare to events return
      *  0 if this contains arg0
      *  1 if there is no intersection between arg0 and this
@@ -139,8 +128,7 @@ public final class Event implements Comparable<Event> {
                 + "Access Control: " + this.control
                 + "Begin Date: " + sdf.format(this.getBegin()) + "\n"
                 + "End Date: " + sdf.format(this.getEnd()) + "\n"
-                + "Description: " + this.getDescription() + "\n"
-                + "Users: " + this.getUser();
+                + "Description: " + this.getDescription() + "\n";
         return event;
     }
 

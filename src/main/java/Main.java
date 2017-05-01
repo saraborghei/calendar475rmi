@@ -1,46 +1,45 @@
-/**
- * Created by sarab on 4/30/2017.
- */
-
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.Scanner;
 
+/**
+ * Created by sarab on 5/1/2017.
+ */
 public class Main {
-    private static final String	USAGE	= String.format("usage: java -jar UB%%X_%%NAMEN server PORT%n" +
-            "         (to start a server)%n" +
-            "or:    java -jar UB%%X_%%NAMEN client SERVERIPADDRESS SERVERPORT%n" +
-            "         (to start a client)");
+    private static final String USAGE = "Wrong use!";
+    private static Scanner keyboard = new Scanner(System.in);
 
-    /**
-     * Starts a server/client according to the given arguments.
-     * @param args
-     */
-    public static void main(String[] args) throws RemoteException, NotBoundException {
-
+    public static void main(String[] args) {
         try {
-            int i = 0;
-
-            if(args[i].equals("server")) {
-                new CalendarImpl(new Integer(args[++i]).intValue());
+            System.out.print("New user? (y/n) ");
+            boolean op = false;
+            while (!op) {
+                String user = keyboard.next();
+                switch (user.toLowerCase()) {
+                    case "y":
+                        System.out.print("Please enter your username: ");
+                        String username = keyboard.next();
+                        new CalendarServer(username);
+                        op = true;
+                        break;
+                    case "n":
+                        op = true;
+                        break;
+                    default:
+                        System.out.print("Please enter y/n: ");
+                        break;
+                }
             }
-            else if(args[i].equals("client")) {
-                (new CalendarClient(args[++i], new Integer(args[++i]).intValue())).run();
-            }
-            else
-                throw new IllegalArgumentException();
-        }
-        catch(ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             System.err.println(USAGE);
-        }
-        catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             System.err.println(USAGE);
-        }
-        catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             System.err.println(USAGE);
-        } catch (RemoteException e) {
+        } /*catch (RemoteException e) {
             System.err.println("Can't connect. (RemoteException)");
         } catch (NotBoundException e) {
             System.err.println("Can't connect. (NotBoundException)");
-        }
+        }*/
     }
 }
