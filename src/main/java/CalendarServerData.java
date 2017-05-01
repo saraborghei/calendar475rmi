@@ -51,6 +51,8 @@ public class CalendarServerData implements Serializable {
             oos.close();
             return true;
         } catch (Exception e) {
+            System.err.println("Can't save to " + FILE);
+            e.printStackTrace();
             return false;
         }
     }

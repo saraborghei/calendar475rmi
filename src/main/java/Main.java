@@ -18,11 +18,14 @@ public class Main {
                 switch (user.toLowerCase()) {
                     case "y":
                         System.out.print("Please enter your username: ");
-                        String username = keyboard.next();
-                        new CalendarServer(username);
+                        String newusername = keyboard.next();
+                        new CalendarServer(newusername);
                         op = true;
                         break;
                     case "n":
+                        System.out.print("Please enter your username: ");
+                        String username = keyboard.next();
+                        new CalendarClient(username);
                         op = true;
                         break;
                     default:
@@ -32,14 +35,13 @@ public class Main {
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             System.err.println(USAGE);
-        } catch (NumberFormatException e) {
-            System.err.println(USAGE);
         } catch (IllegalArgumentException e) {
             System.err.println(USAGE);
-        } /*catch (RemoteException e) {
+        } catch (RemoteException e) {
             System.err.println("Can't connect. (RemoteException)");
+            e.printStackTrace();
         } catch (NotBoundException e) {
-            System.err.println("Can't connect. (NotBoundException)");
-        }*/
+            e.printStackTrace();
+        }
     }
 }
