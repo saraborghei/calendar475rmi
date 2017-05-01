@@ -6,6 +6,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class CalendarImpl extends UnicastRemoteObject implements Calendar {
@@ -45,5 +46,15 @@ public class CalendarImpl extends UnicastRemoteObject implements Calendar {
             }
         }
         return false;
+    }
+
+    /**
+     * @param user
+     * @return a list of user's events
+     * @throws RemoteException
+     */
+    @Override
+    public List<Event> listEvents(String user) throws RemoteException {
+        return null;
     }
 }

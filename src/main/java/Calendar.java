@@ -4,6 +4,7 @@
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
 public interface Calendar extends Remote {
 
@@ -25,4 +26,12 @@ public interface Calendar extends Remote {
      * @throws RemoteException
      */
     boolean removeEvent(String id) throws RemoteException;
+
+    /**
+     *
+     * @param user
+     * @return a list of user's events
+     * @throws RemoteException
+     */
+    List<Event> listEvents(String user) throws RemoteException;
 }
