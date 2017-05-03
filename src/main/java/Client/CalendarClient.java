@@ -1,6 +1,9 @@
-/**
+package Client; /**
  * Created by sarab on 4/29/2017.
  */
+
+import Server.CalendarManager;
+import Server.Event;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,20 +17,19 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class CalendarClient {
-    CalendarImpl calendar;
+    CalendarManager calendar;
 
-    public CalendarClient(String name) throws RemoteException, NotBoundException {
-        Registry registry = LocateRegistry.getRegistry(name);
-        calendar = (CalendarImpl) (registry.lookup(name));
+    public CalendarClient(String host, int port) throws RemoteException, NotBoundException {
+        Registry registry = LocateRegistry.getRegistry();
+        calendar = (CalendarManager) (registry.lookup("calendarManager"));
     }
 
-    public void run() {
+    public static void main(String argv[]) {
         System.out.print("Calendar client.\n"
                 + "add: <begin_date>;<end_date>;<description> - to add an event\n"
                 + "remove: <id> - to remove an event\n"
-                + "quite - to close the client\n");
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                + "quite - to close the client\n");}
+        /*BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
             while (true) {
                 String line = br.readLine();
@@ -38,17 +40,17 @@ public class CalendarClient {
                         boolean success = calendar.addEvent(parseEvent(
                                 params[0], params[1], params[2]));
                         if (success) {
-                            System.out.println("Event removed.");
+                            System.out.println("Server.Event removed.");
                         } else {
                             System.out.println("Can't remove the event.");
                         }
-                        System.out.println("Event created.");
+                        System.out.println("Server.Event created.");
                     } else if (line.startsWith("remove:")) {
                         // Remove an event
                         String params[] = getParameters(line, 1);
                         boolean success = calendar.removeEvent(params[0]);
                         if (success) {
-                            System.out.println("Event removed.");
+                            System.out.println("Server.Event removed.");
                         } else {
                             System.out.println("Can't remove the event.");
                         }
@@ -69,7 +71,7 @@ public class CalendarClient {
         }
 
         System.out.println("Closed.");
-    }
+    }*/
 
     /**
      * Parse an event from strings

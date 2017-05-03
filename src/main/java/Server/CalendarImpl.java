@@ -1,4 +1,4 @@
-/**
+package Server; /**
  * Created by sarab on 4/29/2017.
  */
 
@@ -8,37 +8,33 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class CalendarImpl extends UnicastRemoteObject implements Calendar {
-    private static final long serialVersionUID = -8040611803588290632L;
+public class CalendarImpl extends UnicastRemoteObject implements Callendar {
+    private static final long serialVersionUID = 5846796844759974799L;
     private final Registry _registry;
 
-    private static String NAME;
     private Iterator<Map.Entry<String, Event>> itr;
     private final HashMap<String, Event> _events;
 
     public CalendarImpl() throws RemoteException {
         // load server data
-        CalendarServerData calendarData = CalendarServerData.load();
+        /*CalendarServerData calendarData = CalendarServerData.load();
 
         if (calendarData == null) {
-            _events = new HashMap<String, Event>();
+            _events = new HashMap<String, Server.Event>();
         } else {
             _events = calendarData.getEvents();
-        }
+        }*/
+        _events = new HashMap<String, Event>();
 
         // Create RMI
-        int port = 1;
-        _registry = LocateRegistry.createRegistry(port);
-        _registry.rebind(NAME, this);
+        _registry = LocateRegistry.getRegistry();
+        _registry.rebind("", this);
 
         try {
             String address = (InetAddress.getLocalHost()).toString();
-            System.out.println("Server running @ " + address + ":" + port);
+            System.out.println("Server running ... ");
         } catch (UnknownHostException e) {
             System.err.println("Can't determine adress.");
         }
@@ -50,12 +46,16 @@ public class CalendarImpl extends UnicastRemoteObject implements Calendar {
     public boolean addEvent(Event e) {
         itr = _events.entrySet().iterator();
         String id = e.getBegin().toString() + e.getEnd().toString();
-        while (itr.hasNext() && itr.next().getValue().compareTo(e) > 0) {
-            e.setId(id);
-            _events.put(id, e);
-            return true;
+        while (itr.hasNext()) {
+            if (e.compareTo(itr.next().getValue()) > 0) {
+                itr.next();
+            } else {
+                return false;
+            }
         }
-        return false;
+        e.setId(id);
+        _events.put(id, e);
+        return true;
     }
 
     /**
@@ -74,12 +74,15 @@ public class CalendarImpl extends UnicastRemoteObject implements Calendar {
     }
 
     /**
-     * @param user
      * @return a list of user's events
      * @throws RemoteException
      */
-    @Override
-    public List<Event> listEvents(String user) throws RemoteException {
-        return null;
+    public List<Event> listEvents() {
+        itr = _events.entrySet().iterator();
+        List<Event> eventsList = new LinkedList<Event>();
+        while (itr.hasNext()) {
+            eventsList.add(itr.next().getValue());
+        }
+        return eventsList;
     }
 }
